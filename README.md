@@ -9,12 +9,14 @@ C++ based API for Michael Perl's Human Cyborg Relations Teensy Based Vocalizers
 Created the HCR Vocalizer API for your device. In this demo we call it "HCR" but use what is best fit.
 
 PARAM Variable | Port
+--- | ---
 CONN_SERIAL0 | Serial
 CONN_SERIAL1 | Serial1
 CONN_SERIAL2 | Serial2
 CONN_SERIAL3 | Serial3
 CONN_SERIAL4 | Serial4
 CONN_I2C | I2C
+---
 
 Serial 4 Connection with HCR as Serial Bus ID#: 40
 ```obj-c++
@@ -37,31 +39,39 @@ class Setup() {
 ### Interaction Commands
 
 #### Stimulate()
-Illicit response
+Illicit a response from the HCR AI with either a moderate or strong response.
+
+Variable | Port
+--- | ---
+EMOTE_MODERATE | 0
+EMOTE_STRONG | 1
+---
 
 Happy
 ```obj-c++
-HCR.Stimulate(HAPPY,1);
+HCR.Stimulate(HAPPY,EMOTE_MODERATE);
+// or
+HCR.Stimulate(HAPPY,0);
 ```
 
 Sad
 ```obj-c++
-HCR.Stimulate(SAD,1);
+HCR.Stimulate(SAD,EMOTE_STRONG);
 ```
 
 Mad
 ```obj-c++
-HCR.Stimulate(MAD,1);
+HCR.Stimulate(MAD,EMOTE_MODERATE);
 ```
 
 Scared
 ```obj-c++
-HCR.Stimulate(SCARED,1);
+HCR.Stimulate(SCARED,EMOTE_MODERATE);
 ```
 
 Overload (Electrocution)
 ```obj-c++
-HCR.Stimulate(OVERLOAD,1);
+HCR.Stimulate(OVERLOAD);
 ```
 
 ### Overrides
@@ -80,14 +90,14 @@ HCR.OverrideEmotions(0);
 ```
 
 #### ResetEmotions()
-Resets all emotional states to 0
+Resets all emotional states to `0`
 
 ```obj-c++
 HCR.ResetEmotions();
 ```
 
 #### SetEmotion()
-Sets the specific emotion score based on the integer of 0-99
+Sets the specific emotion score based on the integer of `0-99`
 Reminder that without override, the scores will normalise to 0 over time
 
 ```obj-c++
@@ -107,30 +117,37 @@ HCR.SetEmotion(SCARED,0);
 ```
 
 #### GetEmotions()
-Returns an integer array of the emote scores
+Returns an integer array of all the emote scores
+
+
+Happy | Sad | Mad | Scared
+--- | --- | --- | ---
+`INT` 0-99 | `INT` 0-99 | `INT` 0-99 | `INT` 0-99
+---
+
 
 ```obj-c++
 HCR.GetEmotions();
 ```
 
 #### GetEmotion()
-Returns int of the emote score for HAPPY out of 100
+Returns int of the emote score for HAPPY out of `100`
 
 ```obj-c++
 HCR.GetEmotion(HAPPY);
 ```
 
-Returns int of the emote score for SAD out of 100
+Returns int of the emote score for SAD out of `100`
 ```obj-c++
 HCR.GetEmotion(SAD);
 ```
 
-Returns int of the emote score for MAD out of 100
+Returns int of the emote score for MAD out of `100`
 ```obj-c++
 HCR.GetEmotion(MAD);
 ```
 
-Returns int of the emote score for SCARED out of 100
+Returns int of the emote score for SCARED out of `100`
 ```obj-c++
 HCR.GetEmotion(SCARED);
 ```
@@ -197,7 +214,7 @@ WAV Channel B with a file number
 HCR.GetMuse(CH_B,1);
 ```
 
-Reminder all files must have a suffix of ..._<0000-9999>.WAV
+`Reminder all files must have a suffix of ..._<0000-9999>.WAV`
 
 #### StopWAV()
 Stops the WAV file being played and if it should be slowly faded out
@@ -233,20 +250,20 @@ HCR.GetPlayingWAV(CH_B);
 ```
 
 #### SetVolume()
-Sets the float volume from 0-1 of each available channel
+`TBD` Sets the float volume from 0-1 of each available channel
 
 Vocalizer Channel
 ```obj-c++
-HCR.SetVolume(CH_V,0.99);
+HCR.SetVolume(CH_V,9);
 ```
 
 WAV Channel A
 ```obj-c++
-HCR.SetVolume(CH_A,0.5);
+HCR.SetVolume(CH_A,5);
 ```
 
 WAV Channel B
 ```obj-c++
-HCR.SetVolume(CH_B,0.5);
+HCR.SetVolume(CH_B,5);
 ```
 
