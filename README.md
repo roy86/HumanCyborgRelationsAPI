@@ -37,11 +37,22 @@ class Setup() {
 ```
 
 ### Interaction Commands
+These commands can be run in setup or in a loop function. Commands used in the `setup()` are not sent to the HCR Board until the loop is first run.
 
 #### Stimulate()
-Illicit a response from the HCR AI with either a moderate or strong response.
+Stimulate a response from the HCR AI with either a moderate or strong response.
 
-Variable | Port
+Emotion Categories to use
+Emotion | Value | String
+--- | --- | ---
+HAPPY | 0 | "Happy"
+SAD | 1 | "Sad"
+MAD | 2 | "Mad"
+SCARED | 3 | "Scared"
+---
+
+Emotion Strength Setting
+Variable | Value
 --- | ---
 EMOTE_MODERATE | 0
 EMOTE_STRONG | 1
@@ -125,7 +136,6 @@ Happy | Sad | Mad | Scared
 `INT` 0-99 | `INT` 0-99 | `INT` 0-99 | `INT` 0-99
 ---
 
-
 ```obj-c++
 HCR.GetEmotions();
 ```
@@ -203,6 +213,13 @@ HCR.GetMuse();
 
 #### PlayWAV()
 Play a WAV file from the SD from either A or B channel with either a name or the file number.
+
+Channel | Value | String | Description
+--- | --- | --- | ---
+CH_V | 0 | "Vocalizer" | Vocalizer Channel
+CH_A | 0 | "WAV_A" | WAV Channel A
+CH_B | 0 | "WAV_B" | WAV Channel B
+---
 
 WAV Channel A with a specific file name
 ```obj-c++
