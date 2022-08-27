@@ -1,7 +1,7 @@
 # Human Cyborg Relations C++ API
 C++ based API for Michael Perl's Human Cyborg Relations Teensy Based Vocalizers
 
-# Commands
+## Commands
 
 ### Setup Commands
 
@@ -16,7 +16,6 @@ CONN_SERIAL2 | Serial2
 CONN_SERIAL3 | Serial3
 CONN_SERIAL4 | Serial4
 CONN_I2C | I2C
----
 
 Serial 4 Connection with HCR as Serial Bus ID#: 40
 ```obj-c++
@@ -35,11 +34,11 @@ class Setup() {
     HCR.begin();
 }
 ```
-
-### Interaction Commands
+---
+### Emotion Commands
 These commands can be run in setup or in a loop function. Commands used in the `setup()` are not sent to the HCR Board until the loop is first run.
 
-#### Stimulate()
+#### Stimulate(<int/string>,<int>)
 Stimulate a response from the HCR AI with either a moderate or strong response.
 
 Emotion Categories to use
@@ -49,14 +48,12 @@ HAPPY | 0 | "Happy"
 SAD | 1 | "Sad"
 MAD | 2 | "Mad"
 SCARED | 3 | "Scared"
----
 
 Emotion Strength Setting
 Variable | Value
 --- | ---
 EMOTE_MODERATE | 0
 EMOTE_STRONG | 1
----
 
 Happy
 ```obj-c++
@@ -85,62 +82,18 @@ Overload (Electrocution)
 HCR.Stimulate(OVERLOAD);
 ```
 
-### Overrides
-
-#### OverrideEmotions()
-Stops the normalisation of emotional states and allows each state to remain at its current level
-
-Enable
-```obj-c++
-HCR.OverrideEmotions(1);
-```
-
-Disable
-```obj-c++
-HCR.OverrideEmotions(0);
-```
-
-#### ResetEmotions()
-Resets all emotional states to `0`
-
-```obj-c++
-HCR.ResetEmotions();
-```
-
-#### SetEmotion()
-Sets the specific emotion score based on the integer of `0-99`
-Reminder that without override, the scores will normalise to 0 over time
-
-```obj-c++
-HCR.SetEmotion(HAPPY,89);
-```
-
-```obj-c++
-HCR.SetEmotion(SAD,22);
-```
-
-```obj-c++
-HCR.SetEmotion(MAD,0);
-```
-
-```obj-c++
-HCR.SetEmotion(SCARED,0);
-```
-
 #### GetEmotions()
 Returns an integer array of all the emote scores
-
 
 Happy | Sad | Mad | Scared
 --- | --- | --- | ---
 `INT` 0-99 | `INT` 0-99 | `INT` 0-99 | `INT` 0-99
----
 
 ```obj-c++
 HCR.GetEmotions();
 ```
 
-#### GetEmotion()
+#### GetEmotion(<int>)
 Returns int of the emote score for HAPPY out of `100`
 
 ```obj-c++
@@ -169,13 +122,6 @@ Returns float of current emote duration
 HCR.GetDuration();
 ```
 
-#### GetOverride()
-Returns integer if override is enabled
-
-```obj-c++
-HCR.GetOverride();
-```
-
 #### StopEmote()
 Stops the current Emote from playing
 
@@ -189,7 +135,62 @@ Returns a binary integer if a vocalisation is playing
 HCR.IsPlaying();
 ```
 
-#### SetMuse()
+---
+
+### Overrides
+
+#### OverrideEmotions(<int>)
+Stops the normalisation of emotional states and allows each state to remain at its current level
+
+Enable
+```obj-c++
+HCR.OverrideEmotions(1);
+```
+
+Disable
+```obj-c++
+HCR.OverrideEmotions(0);
+```
+
+#### GetOverride()
+Returns integer if override is enabled
+
+```obj-c++
+HCR.GetOverride();
+```
+
+#### SetEmotion(<int>,<int>)
+Sets the specific emotion score based on the integer of `0-99`
+Reminder that without override, the scores will normalise to 0 over time
+
+```obj-c++
+HCR.SetEmotion(HAPPY,89);
+```
+
+```obj-c++
+HCR.SetEmotion(SAD,22);
+```
+
+```obj-c++
+HCR.SetEmotion(MAD,0);
+```
+
+```obj-c++
+HCR.SetEmotion(SCARED,0);
+```
+
+#### ResetEmotions()
+Resets all emotional states to `0`
+
+```obj-c++
+HCR.ResetEmotions();
+```
+
+---
+
+### Musing
+
+#### SetMuse(<int>)
 Turn on/off random periodical mumbling audio animation
 
 Enable
@@ -209,9 +210,12 @@ Returns the binary integer state if Muse is enabled or disabled
 HCR.GetMuse();
 ```
 
+---
 ### SD CARD AUDIO
 
-#### PlayWAV()
+`Reminder all files must have a suffix of ..._<0000-9999>.WAV`
+
+#### PlayWAV(<Channel>,<File>)
 Play a WAV file from the SD from either A or B channel with either a name or the file number.
 
 Channel | Value | String | Description
@@ -219,21 +223,19 @@ Channel | Value | String | Description
 CH_V | 0 | "Vocalizer" | Vocalizer Channel
 CH_A | 0 | "WAV_A" | WAV Channel A
 CH_B | 0 | "WAV_B" | WAV Channel B
----
+
 
 WAV Channel A with a specific file name
 ```obj-c++
-HCR.GetMuse(CH_A,"String.WAV");
+HCR.PlayWAV(CH_A,"String.WAV");
 ```
 
 WAV Channel B with a file number
 ```obj-c++
-HCR.GetMuse(CH_B,1);
+HCR.PlayWAV(CH_B,1);
 ```
 
-`Reminder all files must have a suffix of ..._<0000-9999>.WAV`
-
-#### StopWAV()
+#### StopWAV(<int/string>,<int>)
 Stops the WAV file being played and if it should be slowly faded out
 
 WAV Channel A
@@ -266,7 +268,10 @@ WAV Channel B
 HCR.GetPlayingWAV(CH_B);
 ```
 
-#### SetVolume()
+---
+### Volume Controls
+
+#### SetVolume(<int/string>,<int>)
 `TBD` Sets the float volume from 0-1 of each available channel
 
 Vocalizer Channel
