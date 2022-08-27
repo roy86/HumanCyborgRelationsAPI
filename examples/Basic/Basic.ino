@@ -1,8 +1,3 @@
-# Human Cyborg Relations C++ API
-
-## Basic Example
-
-```obj-c++
 // Include the HCR Library
 #include <hcr.h>
 
@@ -36,4 +31,3 @@ void loop() {
     Wait = millis();
   }
 }
-```

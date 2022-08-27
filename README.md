@@ -1,9 +1,28 @@
 # Human Cyborg Relations C++ API
-C++ based API for Michael Perl's Human Cyborg Relations Teensy Based Vocalizers
+C++ based API for interfacing with Michael Perl's Human Cyborg Relations Teensy Based Vocalizers
+
+## Table of contents
+* [Overview](#Overview)
+* [Hardware](#hardware)
+* [Commands](#Commands)
+..* [Setup](#Setup)
+..* [Emote](#emotion-commands)
+..* [Override](#overrides)
+..* [Musing](#musing)
+..* [SDCARD](#sdcard-audio)
+..* [Volume](#volume-controls)
+
+## Overview
+
+---
+
+## Hardware
+
+---
 
 ## Commands
 
-### Setup Commands
+### Setup
 
 #### HCRVocalizer
 Created the HCR Vocalizer API for your device. In this demo we call it "HCR" but use what is best fit.
@@ -211,7 +230,7 @@ HCR.GetMuse();
 ```
 
 ---
-### SD CARD AUDIO
+### SDCARD AUDIO
 
 `Reminder all files must have a suffix of ..._<0000-9999>.WAV`
 
