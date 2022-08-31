@@ -2,7 +2,7 @@
 #include <hcr.h>
 
 // Initialise the HCR Vocalizer API
-HCRVocalizer HCR(20,CONN_SERIAL0);
+HCRVocalizer HCR(20,CONN_SERIAL0,250);
 
 void setup() {
   // put your setup code here, to run once:
@@ -27,7 +27,15 @@ void loop() {
     // Stimulate a happy response
     HCR.Stimulate(HAPPY,0);
 
+    // Stimulate Random Response
+    //HCR.Stimulate(random(0,4),random(0,2));
+
     // Reset Timer    
     Wait = millis();
   }
+
+  HCR.update();
+
+  int isplaying = HCR.IsPlaying();
+  Serial.println(isplaying);
 }
