@@ -13,6 +13,10 @@
 #include <iostream>
 #include <Wire.h>
 
+#ifndef HCR_BAUD_RATE
+#define HCR_BAUD_RATE 9600
+#endif
+
 #define CONN_SERIAL0 0x00 //"Serial"
 #define CONN_SERIAL1 0x01 //"Serial1"
 #define CONN_SERIAL2 0x02 //"Serial2"
@@ -56,12 +60,12 @@ public:
 
     void SetMuse(int v);
 
-    void PlayWAV(void);
-    void StopWAV(void);
+    void PlayWAV(int v,std::string file);
+    void StopWAV(int ch);
     void SetVolume(int e,int v);
 
     int* GetEmotions(void);
-    int  GetEmotion(int e);
+    int GetEmotion(int e);
     float GetDuration(void);
     int GetOverride(void);
     int IsPlaying(void);

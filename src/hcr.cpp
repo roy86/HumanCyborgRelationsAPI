@@ -3,7 +3,7 @@
 HCRVocalizer::HCRVocalizer(uint16_t n, byte connectiontype, int refreshRate)
 : begun(false), connection(0x00), commandCache(""), refreshSpeed(0),
   emote_happy(0), emote_sad(0), emote_mad(0), emote_scared(0),
-  state_override(0),state_musing(0),state_files(0),state_duration(0),
+  state_override(0),state_musing(0),state_files(0),state_duration(0.00),
   state_chv(0),state_cha(0),state_chb(0)
 {
     connection = connectiontype;
@@ -14,8 +14,14 @@ HCRVocalizer::HCRVocalizer(uint16_t n, byte connectiontype, int refreshRate)
   @brief   Configure HCR API for output.
 */
 void HCRVocalizer::begin(void) {
-    Wire.begin();
-    Wire.setClock(400000);
+    switch (connection)
+    {
+        case 0x00: Serial.begin(HCR_BAUD_RATE); break;
+        case 0x05:
+            Wire.begin();
+            Wire.setClock(400000);
+            break;
+    };
 }
 
 void HCRVocalizer::update(void) {
@@ -69,12 +75,16 @@ void HCRVocalizer::SetMuse(int v) {
     buildCommand(msg);
 }
 
-void HCRVocalizer::PlayWAV(void) {
-    //CA/CB
+void HCRVocalizer::PlayWAV(int ch,string file) {
+    char channel[] = "VAB";
+    string msg = "C" + ToString((char) channel[ch]) + file;
+    buildCommand(msg);
 }
 
-void HCRVocalizer::StopWAV(void) {
-    //PSA/PSB
+void HCRVocalizer::StopWAV(int ch) {
+    char channel[] = "VAB";
+    string msg = "PS" + ToString((char) channel[ch]);
+    buildCommand(msg);
 }
 
 void HCRVocalizer::SetVolume(int e,int v) {
@@ -99,7 +109,7 @@ int* HCRVocalizer::GetEmotions(void) {
 
 int HCRVocalizer::GetEmotion(int e) {
     if (e < 0 || e > 3) return 0;
-    static int response[4] = {
+    int response[4] = {
         (int)emote_happy,
         (int)emote_sad,
         (int)emote_mad,
@@ -109,32 +119,32 @@ int HCRVocalizer::GetEmotion(int e) {
 }
 
 float HCRVocalizer::GetDuration(void) {
-    static float duration = state_duration;
+    float duration = state_duration;
     return duration;
 }
 
 int HCRVocalizer::GetOverride(void) {
-    static int override = state_override;
+    int override = state_override;
     return override;
 }
 
 int HCRVocalizer::IsPlaying(void) {
-    static int playing = state_chv;
+    int playing = state_chv;
     return playing;
 }
 
 int HCRVocalizer::GetMuse(void) {
-    static int musing = state_musing;
+    int musing = state_musing;
     return musing;
 }
 
 int HCRVocalizer::GetWAVCount(void) {
-    static int wavcount = state_files;
+    int wavcount = state_files;
     return wavcount;
 }
 
 int HCRVocalizer::GetPlayingWAV(int ch) {
-    static float wavplaying = 0;
+    float wavplaying = 0;
     if (ch == 1) {
         wavplaying = state_cha;
     } else if (ch == 2) {
@@ -164,48 +174,52 @@ void HCRVocalizer::transmitCommand(string cmd)
     if (cmd != "QD")
         cmd = cmd + ",QD";
 
-    if (begun != true)
+    const char* hcr_inputc = ("<" + cmd + ">").c_str();
+    bool query = false;
+
+    //Serial.println(("<" + cmd + ">").c_str());
+
+    switch (connection)
     {
-        //
-    } else {
-        Serial.println(("<" + cmd + ">").c_str());
-
-        /* switch (HCRConnectionType)
-        {
-            case 0x00: if (Serial.available()) Serial.println(("<" + cmd + ">").c_str()); break;
-            case 0x01: if (Serial1.available()) Serial1.println(("<" + cmd + ">").c_str()); break;
-            case 0x02: if (Serial2.available()) Serial2.println(("<" + cmd + ">").c_str()); break;
-            case 0x03: if (Serial3.available()) Serial3.println(("<" + cmd + ">").c_str()); break;
-            case 0x04: if (Serial4.available()) Serial4.println(("<" + cmd + ">").c_str()); break;
-            default: i2cRequestCache = cmd; break;
-        } */
-
-        const char* hcr_inputc = ("<" + cmd + ">").c_str();
-        bool query = false;
-        Wire.beginTransmission(0x10);
-        for (int i=0; i<9; i++) {
-            Wire.write((byte) hcr_inputc[i]);
-            if (hcr_inputc[i] == 'Q' && hcr_inputc[i+1] == 'D')
-                query = true;
-        }
-        if (query) {
-            getResponse();
-        }
-        Wire.endTransmission();
-    }
+        case 0x00:
+            if (Serial.available()) {
+                for (int i=0; i<9; i++) {
+                    Serial.print((byte) hcr_inputc[i]);
+                    if (hcr_inputc[i] == 'Q' && hcr_inputc[i+1] == 'D')
+                        query = true;
+                };
+            };
+            break;
+        case 0x05:
+            Wire.beginTransmission(0x10);
+            for (int i=0; i<9; i++) {
+                Wire.write((byte) hcr_inputc[i]);
+                if (hcr_inputc[i] == 'Q' && hcr_inputc[i+1] == 'D')
+                    query = true;
+            }
+            if (query) {
+                getResponse();
+            }
+            Wire.endTransmission();
+        break;
+    };
 }
 
 String HCRVocalizer::getResponse(void) {
     String response = "";
     switch (connection)
     {
-        case 0x00: if (Serial.available()) {}; break;
+        case 0x00:
+            if (Serial.available()) {
+                //
+            };
+            break;
         case 0x05:
             Wire.requestFrom(0x10,48);
             if (Wire.available()) {
                 char character;
                 int wirelen = int(Wire.read());
-                
+
                 /* Serial.print("L(");
                 Serial.print(wirelen);
                 Serial.print("):"); */
@@ -221,8 +235,7 @@ String HCRVocalizer::getResponse(void) {
                 {
                     while (Wire.available()) {Wire.read();};
                 };
-
-                Serial.println(response);
+                //Serial.println(response);
             };
             break;
         default: break;
