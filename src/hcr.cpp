@@ -34,10 +34,14 @@ void HCRVocalizer::update(void) {
 }
 
 void HCRVocalizer::Stimulate(int e,int v) {
-    if (e < 0 || e > 3) return;
-    char emoteprefix[] = "HSMC";
-    string msg = "S" + ToString((char) emoteprefix[e]) + ToString(v);
-    buildCommand(msg);
+    if (e < 0 || e > 4) return;
+    if (e == 4) {
+        Overload();
+    } else {
+        char emoteprefix[] = "HSMC";
+        string msg = "S" + ToString((char) emoteprefix[e]) + ToString(v);
+        buildCommand(msg);
+    };
 }
 
 void HCRVocalizer::Overload(void) {

@@ -30,6 +30,7 @@
 #define SAD 1
 #define MAD 2
 #define SCARED 3
+#define OVERLOAD 4
 
 #define EMOTE_MODERATE 0
 #define EMOTE_STRONG 1
