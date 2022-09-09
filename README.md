@@ -14,12 +14,11 @@ C++ based API for interfacing with Michael Perl's [Human Cyborg Relations](https
 
 Each vocalization is unique. A sophisticated algorithm assembles R2’s speech "phoneme" by "phoneme." Billions upon billions of rules dictate how each sound should be selected, processed, timed, and sequenced to achieve emotional and canonical accuracy.
 
-The [Human Cyborg Relations R2 Vocalizer](https://humancyborgrelations.com/r2d2/) has been ported to the Teensy 4.1 Hardware for stand-alone integration into custom droids build for the Astromech community usage.
+The [Human Cyborg Relations R2 Vocalizer](https://humancyborgrelations.com/r2d2/) has been ported to the Teensy 4.1 Hardware for stand-alone integration into custom droids build for the Astromech community usage. The WIKI and CODE here relates to the C++ Library created for Arduino/Teensy/ESP projects to allow people to interface their boards with the HCR R2 Vocalizer programmed Teensy 4.1 + Audio Shield.
 
 All proceeds support [Force for Change](https://www.starwars.com/force-for-change) and [FIRST®](https://www.firstinspires.org/)
 
-## Hardware
-[Hardware WIKI](https://github.com/roy86/HumanCyborgRelationsAPI/wiki/HCR-Hardware)
+## [Hardware WIKI](https://github.com/roy86/HumanCyborgRelationsAPI/wiki/HCR-Hardware)
 
 ---
 ## Commands
