@@ -19,11 +19,10 @@ The [Human Cyborg Relations R2 Vocalizer](https://humancyborgrelations.com/r2d2/
 All proceeds support [Force for Change](https://www.starwars.com/force-for-change) and [FIRST®](https://www.firstinspires.org/)
 
 ## Hardware
-[Hardware WIKI](https://github.com/roy86/HumanCyborgRelationsAPI/wiki/Vocalizer-Hardware)
+[Hardware WIKI](https://github.com/roy86/HumanCyborgRelationsAPI/wiki/HCR-Hardware)
 
 ---
-
 ## Commands
-[Command WIKI](https://github.com/roy86/HumanCyborgRelationsAPI/wiki/Vocalizer-Client-Library)
+[Library WIKI](https://github.com/roy86/HumanCyborgRelationsAPI/wiki/HCR-Client-Library)
 
 
