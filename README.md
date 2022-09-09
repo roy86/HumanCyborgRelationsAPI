@@ -5,8 +5,8 @@ C++ based API for interfacing with Michael Perl's [Human Cyborg Relations](https
 
 ## Table of contents
 * [Overview](#overview)
-* [Hardware](#hardware)
-* [Commands](#commands)
+* [Hardware](#hardware-setup)
+* [Commands](#command-library)
 
 ## Overview
 
@@ -18,10 +18,8 @@ The [Human Cyborg Relations R2 Vocalizer](https://humancyborgrelations.com/r2d2/
 
 All proceeds support [Force for Change](https://www.starwars.com/force-for-change) and [FIRST®](https://www.firstinspires.org/)
 
-## [Hardware WIKI](https://github.com/roy86/HumanCyborgRelationsAPI/wiki/HCR-Hardware)
-
----
-## Commands
-[Library WIKI](https://github.com/roy86/HumanCyborgRelationsAPI/wiki/HCR-Client-Library)
+## Documentation
+### [Hardware Setup](https://github.com/roy86/HumanCyborgRelationsAPI/wiki/HCR-Hardware)
+### [Command Library](https://github.com/roy86/HumanCyborgRelationsAPI/wiki/HCR-Client-Library)
 
 
