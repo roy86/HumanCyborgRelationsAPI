@@ -10,7 +10,7 @@ C++ based API for interfacing with Michael Perl's [Human Cyborg Relations](https
 
 ## Overview
 
-[Human Cyborg Relations](https://humancyborgrelations.com/r2d2/) created by Michael Perl, has changed the face of Droid Vocalization through a fully functional AI, powered by advanced research into the speech patterns and emotional logic of R2-D2.
+[Human Cyborg Relations](https://humancyborgrelations.com/r2d2/), created by Michael Perl, has set a new standard for Droid Vocalization through a fully functional AI, powered by advanced research into the speech patterns and emotional logic of R2-D2.
 
 Each vocalization is unique. A sophisticated algorithm assembles R2’s speech "phoneme" by "phoneme." Billions upon billions of rules dictate how each sound should be selected, processed, timed, and sequenced to achieve emotional and canonical accuracy.
 
