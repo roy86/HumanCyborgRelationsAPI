@@ -17,6 +17,10 @@
 #define HCR_BAUD_RATE 9600
 #endif
 
+#ifndef HCR_I2C_RATE
+#define HCR_I2C_RATE 400000
+#endif
+
 #define CONN_SERIAL0 0x00 //"Serial"
 #define CONN_SERIAL1 0x01 //"Serial1"
 #define CONN_SERIAL2 0x02 //"Serial2"

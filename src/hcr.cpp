@@ -11,7 +11,7 @@ HCRVocalizer::HCRVocalizer(uint16_t n, byte connectiontype, int refreshRate)
 };
 
 /*!
-  @brief   Configure HCR API for output.
+  @brief   Start the serial or wire connection
 */
 void HCRVocalizer::begin(void) {
     switch (connection)
@@ -19,7 +19,7 @@ void HCRVocalizer::begin(void) {
         case 0x00: Serial.begin(HCR_BAUD_RATE); break;
         case 0x05:
             Wire.begin();
-            Wire.setClock(400000);
+            Wire.setClock(HCR_I2C_RATE);
             break;
     };
 }
