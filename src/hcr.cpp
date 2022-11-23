@@ -39,29 +39,29 @@ void HCRVocalizer::Stimulate(int e,int v) {
         Overload();
     } else {
         char emoteprefix[] = "HSMC";
-        string msg = "S" + ToString((char) emoteprefix[e]) + ToString(v);
+        String msg = "S" + ToString((char) emoteprefix[e]) + ToString(v);
         buildCommand(msg);
     };
 }
 
 void HCRVocalizer::Overload(void) {
-    string msg = "SE";
+    String msg = "SE";
     buildCommand(msg);
 }
 
 void HCRVocalizer::StopEmote(void) {
-    string msg = "PSV";
+    String msg = "PSV";
     buildCommand(msg);
 }
 
 void HCRVocalizer::OverrideEmotions(int v) {
     if (v < 0 || v > 1) return;
-    string msg = "O" + ToString(v);
+    String msg = "O" + ToString(v);
     buildCommand(msg);
 }
 
 void HCRVocalizer::ResetEmotions(void) {
-    string msg = "OR";
+    String msg = "OR";
     buildCommand(msg);
 }
 
@@ -69,32 +69,32 @@ void HCRVocalizer::SetEmotion(int e,int v) {
     if (e < 0 || e > 3) return;
     if (v < 0 || v > 99) return;
     char emoteprefix[] = "HSMC";
-    string msg = "O" + ToString((char) emoteprefix[e]) + ToString(v);
+    String msg = "O" + ToString((char) emoteprefix[e]) + ToString(v);
     buildCommand(msg);
 }
 
 void HCRVocalizer::SetMuse(int v) {
     if (v < 0 || v > 1) return;
-    string msg = "O" + ToString(v);
+    String msg = "O" + ToString(v);
     buildCommand(msg);
 }
 
-void HCRVocalizer::PlayWAV(int ch,string file) {
+void HCRVocalizer::PlayWAV(int ch,String file) {
     char channel[] = "VAB";
-    string msg = "C" + ToString((char) channel[ch]) + file;
+    String msg = "C" + ToString((char) channel[ch]) + file;
     buildCommand(msg);
 }
 
 void HCRVocalizer::StopWAV(int ch) {
     char channel[] = "VAB";
-    string msg = "PS" + ToString((char) channel[ch]);
+    String msg = "PS" + ToString((char) channel[ch]);
     buildCommand(msg);
 }
 
 void HCRVocalizer::SetVolume(int e,int v) {
     if (e < 0 || e > 2) return;
     char channel[] = "VAB";
-    string msg = "PV" + ToString((char) channel[e]) + ToString(v);;
+    String msg = "PV" + ToString((char) channel[e]) + ToString(v);;
     buildCommand(msg);
 }
 
@@ -162,7 +162,7 @@ int HCRVocalizer::GetPlayingWAV(int ch) {
 /*! 
     //
 */
-void HCRVocalizer::buildCommand(string cmd)
+void HCRVocalizer::buildCommand(String cmd)
 {
     if (commandCache.length() == 0) {
         commandCache += cmd;
@@ -171,7 +171,7 @@ void HCRVocalizer::buildCommand(string cmd)
     };
 }
 
-void HCRVocalizer::transmitCommand(string cmd)
+void HCRVocalizer::transmitCommand(String cmd)
 {
     if (cmd.length() == 0) return;
 

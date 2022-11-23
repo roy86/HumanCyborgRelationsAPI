@@ -10,7 +10,7 @@
 #endif
 #endif
 
-#include <iostream>
+#include <String.h>
 #include <Wire.h>
 
 #ifndef HCR_BAUD_RATE
@@ -65,7 +65,7 @@ public:
 
     void SetMuse(int v);
 
-    void PlayWAV(int v,std::string file);
+    void PlayWAV(int v,String file);
     void StopWAV(int ch);
     void SetVolume(int e,int v);
 
@@ -79,17 +79,17 @@ public:
     int GetPlayingWAV(int ch);
 
 private:
-    void buildCommand(std::string cmd);
-    void transmitCommand(std::string cmd);
+    void buildCommand(String cmd);
+    void transmitCommand(String cmd);
     String getResponse(void);
-    void updatedata(std::string df);
+    void updatedata(String df);
     String getValue(String data, char separator, int index);
 
 protected:
     uint16_t deviceID;
     bool begun;
     byte connection;
-    std::string commandCache;
+    String commandCache;
     int refreshSpeed;
     int emote_happy;
     int emote_sad;
@@ -108,31 +108,31 @@ protected:
 
 using namespace std;
 //ToString
-inline string ToString (double d)
+inline String ToString (double d)
 {
 	char buffer[32];
 	snprintf(buffer, sizeof(buffer), "%g", d);
 	return buffer;
 }
-inline string ToString (float d)
+inline String ToString (float d)
 {
 	char buffer[16];
 	snprintf(buffer, sizeof(buffer), "%g", d);
 	return buffer;
 }
-inline string ToString (char a)
+inline String ToString (char a)
 {
 	return String(a).c_str();
 }
-inline string ToString (const char* a)
+inline String ToString (const char* a)
 {
 	return String(a).c_str();
 }
-inline string ToString (int number)
+inline String ToString (int number)
 {
 	return String(number).c_str();
 }
-inline string ToString (int number, string thing)
+inline String ToString (int number, String thing)
 {
 	String Prefix = "";
 	if (thing == "00")
@@ -144,7 +144,7 @@ inline string ToString (int number, string thing)
 	}
 	return (Prefix + String(number)).c_str();
 }
-inline string ToString (bool d)
+inline String ToString (bool d)
 {
 	if (d)
 	{
