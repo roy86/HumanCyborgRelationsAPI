@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef HCRAPI_F
 #define HCRAPI_F
 
@@ -11,6 +13,7 @@
 #endif
 
 #include <String.h>
+#include <SoftwareSerial.h>
 #include <Wire.h>
 
 #ifndef HCR_BAUD_RATE
@@ -51,12 +54,19 @@
 class HCRVocalizer
 {
 public:
-    HCRVocalizer(uint16_t n, byte connectiontype, int refreshSpeed);
+    HCRVocalizer(const uint8_t addr, TwoWire &i2c);
+    HCRVocalizer(const uint8_t addr, TwoWire &i2c, int baud);
+    HCRVocalizer(HardwareSerial *conn,int baud);
+    HCRVocalizer(SoftwareSerial *conn,int baud);
+    HCRVocalizer(int rx, int tx, int baud);
 
     void begin(void);
+    void begin(const uint16_t refspeed);
     void update(void);
+    void Trigger(int e,int v);
     void Stimulate(int e,int v);
     void Overload(void);
+    void Stop(void);
     void StopEmote(void);
 
     void OverrideEmotions(int v);
@@ -78,24 +88,34 @@ public:
     int GetWAVCount(void);
     int GetPlayingWAV(int ch);
 
+    void dfPlayer();
+
 private:
-    void buildCommand(String cmd);
-    void transmitCommand(String cmd);
-    String getResponse(void);
-    void updatedata(String df);
+    uint8_t _i2caddr=0;
+    TwoWire *_i2c;
+    HardwareSerial *_serial;
+    SoftwareSerial *_softserial;
+    int _serialBaud;
+    int usehardwareserial;
+    int connectionType;
+
+    void transmit(String command);
+    void transmit(String command, bool retry);
+    void receive(void);
+    void sendCommand(String command);
     String getValue(String data, char separator, int index);
 
+    String getResponse(void);
+
 protected:
-    uint16_t deviceID;
-    bool begun;
+    char hcrstartMarker = '<';
+    char hcrendMarker = '>';
     byte connection;
-    String commandCache;
     int refreshSpeed;
     int emote_happy;
     int emote_sad;
     int emote_mad;
     int emote_scared;
-
     int state_override;
     int state_musing;
     int state_files;
@@ -103,7 +123,6 @@ protected:
     int state_chv;
     int state_cha;
     int state_chb;
-
 };
 
 using namespace std;
