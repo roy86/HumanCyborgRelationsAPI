@@ -48,7 +48,7 @@ void setup() {
   // Begin HCR Setup
   HCR.begin(); // Refresh Speed (Default:125 ms)
 
-  // Enable Musing
+  // Disable Musing
   HCR.SetMuse(false);
 
   // Disable Emotion Override
@@ -78,7 +78,4 @@ void loop() {
   }
 
   HCR.update();
-
-  int isplaying = HCR.IsPlaying();
-  Serial.println(isplaying);
 }

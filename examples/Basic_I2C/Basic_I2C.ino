@@ -40,7 +40,6 @@ Examples
 // Initialise the HCR Vocalizer API
 HCRVocalizer HCR(0x10,Wire); // I2C (HCR I2C Address, Wire(, clock rate))
 
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -78,7 +77,4 @@ void loop() {
   }
 
   HCR.update();
-
-  int isplaying = HCR.IsPlaying();
-  Serial.println(isplaying);
 }

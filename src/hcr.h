@@ -16,6 +16,8 @@
 #include <SoftwareSerial.h>
 #include <Wire.h>
 
+#define HCR_BUFFER_SIZE 32
+
 #ifndef HCR_BAUD_RATE
 #define HCR_BAUD_RATE 9600
 #endif
@@ -83,10 +85,12 @@ public:
     int GetEmotion(int e);
     float GetDuration(void);
     int GetOverride(void);
-    int IsPlaying(void);
+    bool IsPlaying(void);
+    bool IsPlaying(int ch);
     int GetMuse(void);
     int GetWAVCount(void);
     int GetPlayingWAV(int ch);
+    void getUpdate(void);
 
     void dfPlayer();
 
@@ -96,20 +100,22 @@ private:
     HardwareSerial *_serial;
     SoftwareSerial *_softserial;
     int _serialBaud;
-    int usehardwareserial;
     int connectionType;
 
     void transmit(String command);
     void transmit(String command, bool retry);
     void receive(void);
     void sendCommand(String command);
+    void receiveData(char ch);
+    void receiveData(String data);
+    void processCommands(char* input);
     String getValue(String data, char separator, int index);
-
-    String getResponse(void);
 
 protected:
     char hcrstartMarker = '<';
     char hcrendMarker = '>';
+    char cmdBuffer[HCR_BUFFER_SIZE];
+    unsigned cmdPos;
     byte connection;
     int refreshSpeed;
     int emote_happy;
