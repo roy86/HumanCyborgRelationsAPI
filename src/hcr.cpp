@@ -328,6 +328,21 @@ void HCRVocalizer::processCommands(char* input)
         Serial.print("QPB::"); Serial.println(getValue(response,',',1).toInt());
         state_chb = getValue(response,',',1).toInt();
     }
+    else if (qC.equals((String)"QVV"))
+    {
+        Serial.print("QVV::"); Serial.println(getValue(response,',',1).toInt());
+        Volume_V = getValue(response,',',1).toInt();
+    }
+    else if (qC.equals((String)"QVA"))
+    {
+        Serial.print("QVA::"); Serial.println(getValue(response,',',1).toInt());
+        Volume_A = getValue(response,',',1).toInt();
+    }
+    else if (qC.equals((String)"QVB"))
+    {
+        Serial.print("QVB::"); Serial.println(getValue(response,',',1).toInt());
+        Volume_B = getValue(response,',',1).toInt();
+    }
     else if (qC.equals((String)"DF"))
     {
         emote_happy = getValue(response,',',1).toInt();
@@ -374,6 +389,20 @@ void HCRVocalizer::Overload(void)
     sendCommand(msg);
 }
 
+void HCRVocalizer::Muse(void)
+{
+    String msg = "MM";
+    sendCommand(msg);
+}
+
+void HCRVocalizer::Muse(int min, int max)
+{
+    if (min < 0 || min > 99) return;
+    if (max < 0 || max > 99) return;
+    String msg = "MN" + ToString(min) + ",MX" + ToString(max);
+    sendCommand(msg);
+}
+
 void HCRVocalizer::Stop(void)
 {
     StopEmote();
@@ -413,6 +442,17 @@ void HCRVocalizer::SetMuse(int v) {
 }
 
 unsigned long lastPlayWAV = millis();
+void HCRVocalizer::PlayWAV(int ch,int fileNumber)
+{
+    if (millis() > lastPlayWAV) {
+        String fileName = String(fileNumber, DEC);
+        for (int i = fileName.length(); i < 4; i++) {
+            fileName = "0" + fileName;
+        }
+        PlayWAV(ch,fileName);
+    }
+}
+
 void HCRVocalizer::PlayWAV(int ch,String file) {
     if (millis() > lastPlayWAV) {
         lastPlayWAV = millis() + 5000;
@@ -510,6 +550,25 @@ int HCRVocalizer::GetPlayingWAV(int ch) {
         wavplaying = state_chv;
     };
     return wavplaying;
+}
+
+float HCRVocalizer::getVolume(int ch)
+{
+    if (ch < 0 || ch > 2) return 0;
+    char channel[] = "VAB";
+    String msg = "QV" + ToString((char) channel[ch]);
+
+    sendCommand(msg);
+
+    float volume = 0;
+    if (ch == 1) {
+        volume = Volume_A;
+    } else if (ch == 2) {
+        volume = Volume_B;
+    } else {
+        volume = Volume_V;
+    };
+    return volume;
 }
 
 String HCRVocalizer::getValue(String data, char separator, int index)

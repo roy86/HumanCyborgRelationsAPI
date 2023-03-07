@@ -68,6 +68,8 @@ public:
     void Trigger(int e,int v);
     void Stimulate(int e,int v);
     void Overload(void);
+    void Muse(void);
+    void Muse(int min, int max);
     void Stop(void);
     void StopEmote(void);
 
@@ -77,6 +79,7 @@ public:
 
     void SetMuse(int v);
 
+    void PlayWAV(int v,int file);
     void PlayWAV(int v,String file);
     void StopWAV(int ch);
     void SetVolume(int e,int v);
@@ -90,6 +93,7 @@ public:
     int GetMuse(void);
     int GetWAVCount(void);
     int GetPlayingWAV(int ch);
+    float getVolume(int e);
     void getUpdate(void);
 
     void dfPlayer();
@@ -129,6 +133,9 @@ protected:
     int state_chv;
     int state_cha;
     int state_chb;
+    int Volume_V;
+    int Volume_A;
+    int Volume_B;
 };
 
 using namespace std;
