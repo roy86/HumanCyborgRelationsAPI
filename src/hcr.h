@@ -56,43 +56,254 @@
 class HCRVocalizer
 {
 public:
+    /**
+     * @brief Configure the HCRVocalizer for I2C
+     * 
+     * @param addr the I2C Address in hexidecimal
+     * @param i2c the I2C interface (aka "Wire")
+     */
     HCRVocalizer(const uint8_t addr, TwoWire &i2c);
+
+    /**
+     * @brief Configure the HCRVocalizer for I2C with a baud rate
+     * 
+     * @param addr the I2C Address in hexidecimal
+     * @param i2c the I2C interface (aka "Wire")
+     * @param baud the baud rate
+     */
     HCRVocalizer(const uint8_t addr, TwoWire &i2c, int baud);
+    
+    /**
+     * @brief Configure the HCRVocalizer for Hardware Serial with a baud rate
+     * 
+     * @param conn the serial connection
+     * @param baud the baud rate
+     */
     HCRVocalizer(HardwareSerial *conn,int baud);
+
+    /**
+     * @brief Configure the HCRVocalizer for Software Serial with a baud rate
+     * 
+     * @param conn the serial connection
+     * @param baud the baud rate
+     */
     HCRVocalizer(SoftwareSerial *conn,int baud);
+
+    /**
+     * @brief Configure the HCRVocalizer for Serial with specific rx and tx pins
+     * 
+     * @param rx the rx pin number
+     * @param tx the tx pin number
+     * @param baud the baud rate
+     */
     HCRVocalizer(int rx, int tx, int baud);
 
+    /**
+    * @brief Initializes the vocalizer
+    * 
+    */
     void begin(void);
+
+    /**
+     * @brief Initializes the vocalizer with a refresh speed
+     * 
+     * @param refspeed
+     */
     void begin(const uint16_t refspeed);
+    
+    /**
+     * @brief Forces the vocalizer to update
+     * 
+     */
     void update(void);
+
+    /**
+     * @brief Triggers an audio response of the specific emotion and level
+     * 
+     * @param e the emotion (HAPPY|SAD|MAD|SCARED)
+     * @param v the level (EMOTE_MODERATE|EMOTE_STRONG)
+     */
     void Trigger(int e,int v);
+
+    /**
+     * @brief Stimulate an audio response of the specific emotion and level
+     * 
+     * @param e the emotion (HAPPY|SAD|MAD|SCARED)
+     * @param v the level (EMOTE_MODERATE|EMOTE_STRONG)
+     */
     void Stimulate(int e,int v);
+
+    /**
+    * @brief Triggers the Overload response
+    * 
+    */
     void Overload(void);
+
+    /**
+    * @brief Triggers a single muse
+    *
+    */
     void Muse(void);
+
+    /**
+    * @brief Configures muse minimum and maximum duration between
+    * emotes
+    * 
+    * @param min in seconds
+    * @param max in seconds
+    */
     void Muse(int min, int max);
+
+    /**
+    * @brief Stops all wavs playing and any emotes
+    * 
+    */ 
     void Stop(void);
+
+    /**
+    * @brief Stops whatever emote is playing
+    * 
+    */
     void StopEmote(void);
 
+    /**
+     * @brief Overrides normalization of emotional state
+     * 1 is enabled, 0 is disabled
+     * 
+     * @param v int
+     */
     void OverrideEmotions(int v);
+
+    /**
+     * @brief Resets all emotions back to 0
+     * 
+     */
     void ResetEmotions(void);
+
+    /**
+     * @brief Sets an emotion to a specific value
+     * 
+     * @param e the emotion type (HAPPY|SAD|MAD|SCARED)
+     * @param v the emotion value
+     */
     void SetEmotion(int e,int v);
 
+    /**
+     * @brief Turn on or off random periodical mumbling audio animation
+     * 1 is enabled, 0 is disabled
+     * @param v 
+     */
     void SetMuse(int v);
 
+    /**
+     * @brief Plays a WAV file by file number
+     * 
+     * @param v the channel (CH_A|CH_B)
+     * @param file the file number
+     */
     void PlayWAV(int v,int file);
+
+    /**
+     * @brief Plays a WAV file by file name
+     * 
+     * @param v the channel (CH_A|CH_B)
+     * @param file the file name prefix (e.g. "0000")
+     */
     void PlayWAV(int v,String file);
+
+    /**
+     * @brief Stops the WAV playing on the specified channel
+     * 
+     * @param ch the channel (CH_A|CH_B)
+     */
     void StopWAV(int ch);
+
+    /**
+     * @brief Stops the WAV playing on the specified channel
+     * 
+     * @param ch the channel (CH_V|CH_A|CH_B)
+     * @param v  the volume level (0-100)
+     */
     void SetVolume(int e,int v);
 
+    /**
+     * @brief Retrieve the current state of each emotion
+     * 
+     * @return int* 
+     */
     int* GetEmotions(void);
+
+    /**
+     * @brief Retrieve the current state of a specified emotion
+     * 
+     * @param e the emotion (HAPPY|SAD|MAD|SCARED)
+     * @return int 
+     */
     int GetEmotion(int e);
+
+    /**
+     * @brief Gets the length of the current emote duration
+     * 
+     * @return float 
+     */
     float GetDuration(void);
+
+    /**
+     * @brief Retrieves the status of whether override is enabled
+     * 
+     * @return int 
+     */
     int GetOverride(void);
+
+    /**
+     * @brief Returns value of whether audio is currently playing
+     * 
+     * @return true 
+     * @return false 
+     */
     bool IsPlaying(void);
+
+    /**
+     * @brief Returns value of whether audio is currently playing on
+     * the specified channel
+     * 
+     * @param ch the audio channel (CH_V|CH_A|CH_B)
+     * @return true 
+     * @return false 
+     */
     bool IsPlaying(int ch);
+
+    /**
+     * @brief Retrieves whether muse is currently enabled or disabled
+     * 1 is enabled, 0 is disabled
+     *
+     * @return int 
+     */
     int GetMuse(void);
+
+    /**
+     * @brief Returns an interger of the number of compatible WAV files
+     * detected on the SD Card
+     * 
+     * @return int 
+     */
     int GetWAVCount(void);
+
+    /**
+     * @brief Returns the file number of the WAV currently playing on
+     * the specified channel or -1 if nothing is playing
+     * 
+     * @param ch the audio channel (CH_V|CH_A|CH_B)
+     * @return int
+     */
     int GetPlayingWAV(int ch);
+
+    /**
+     * @brief Retrieves the volume level of the specified channel
+     * 
+     * @param e the audio channel (CH_V|CH_A|CH_B)
+     * @return float 
+     */
     float getVolume(int e);
     void getUpdate(void);
 
