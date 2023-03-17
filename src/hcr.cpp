@@ -437,7 +437,7 @@ void HCRVocalizer::SetEmotion(int e,int v) {
 
 void HCRVocalizer::SetMuse(int v) {
     if (v < 0 || v > 1) return;
-    String msg = "O" + ToString(v) + ",QM";
+    String msg = "M" + ToString(v) + ",QM";
     sendCommand(msg);
 }
 
